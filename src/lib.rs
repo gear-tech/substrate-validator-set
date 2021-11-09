@@ -18,7 +18,7 @@ use frame_support::{
 use log;
 pub use pallet::*;
 use sp_runtime::{
-    traits::{Convert, Zero},
+    traits::{Convert},
     DispatchError,
 };
 use sp_staking::offence::{Offence, OffenceError, ReportOffence};
@@ -109,12 +109,12 @@ pub mod pallet {
         /// The origin can be configured using the `AddRemoveOrigin` type in the host runtime.
         /// Can also be set to sudo/root.
         #[pallet::weight(0)]
-        pub fn add_validator(origin: OriginFor<T>, validator_id: T::AccountId) -> DispatchResult {
+        pub fn add_validator(origin: OriginFor<T>, validator_id: T::AccountId) -> DispatchResultWithPostInfo {
             T::AddRemoveOrigin::ensure_origin(origin)?;
 
             Self::do_add_validator(validator_id)?;
 
-            Ok(())
+            Ok(().into())
         }
 
         /// Remove a validator using elevated privileges.
@@ -125,12 +125,12 @@ pub mod pallet {
         pub fn remove_validator(
             origin: OriginFor<T>,
             validator_id: T::AccountId,
-        ) -> DispatchResult {
+        ) -> DispatchResultWithPostInfo {
             T::AddRemoveOrigin::ensure_origin(origin)?;
 
             Self::do_remove_validator(validator_id)?;
 
-            Ok(())
+            Ok(().into())
         }
     }
 }
@@ -222,21 +222,14 @@ impl<T: Config> pallet_session::SessionManager<T::AccountId> for Pallet<T> {
 }
 
 impl<T: Config> EstimateNextSessionRotation<T::BlockNumber> for Pallet<T> {
-    fn average_session_length() -> T::BlockNumber {
-        Zero::zero()
-    }
 
-    fn estimate_current_session_progress(
-        _now: T::BlockNumber,
-    ) -> (Option<sp_runtime::Permill>, frame_support::dispatch::Weight) {
-        (None, Zero::zero())
-    }
+    fn estimate_next_session_rotation(_: T::BlockNumber) -> Option<T::BlockNumber> {
+		None
+	}
 
-    fn estimate_next_session_rotation(
-        _now: T::BlockNumber,
-    ) -> (Option<T::BlockNumber>, frame_support::dispatch::Weight) {
-        (None, Zero::zero())
-    }
+	fn weight(_: T::BlockNumber) -> frame_support::dispatch::Weight {
+		0
+	}
 }
 
 // Implementation of Convert trait for mapping ValidatorId with AccountId.
@@ -255,11 +248,11 @@ impl<T: Config> ValidatorSet<T::AccountId> for Pallet<T> {
     type ValidatorIdOf = T::ValidatorIdOf;
 
     fn session_index() -> sp_staking::SessionIndex {
-        pallet_session::Pallet::<T>::current_index()
+        pallet_session::Module::<T>::current_index()
     }
 
     fn validators() -> Vec<Self::ValidatorId> {
-        pallet_session::Pallet::<T>::validators()
+        pallet_session::Module::<T>::validators()
     }
 }
 
