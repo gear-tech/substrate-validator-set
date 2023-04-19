@@ -257,7 +257,14 @@ impl<T: Config> pallet_session::SessionManager<T::AccountId> for Pallet<T> {
 
 		log::debug!(target: LOG_TARGET, "New session called; updated validator set provided.");
 
-		Some(Self::validators())
+		let validators = Self::validators();
+
+		// Don't plan a new session without validators
+		if validators.is_empty() {
+			None
+		} else {
+			Some(validators)
+		}
 	}
 
 	fn end_session(_end_index: u32) {}
