@@ -170,7 +170,6 @@ pub mod pallet {
 
 impl<T: Config> Pallet<T> {
 	fn initialize_validators(validators: &[T::AccountId]) {
-		assert!(validators.len() as u32 >= T::MinAuthorities::get(), "Initial set of validators must be at least T::MinAuthorities");
 		assert!(<Validators<T>>::get().is_empty(), "Validators are already initialized!");
 
 		<Validators<T>>::put(validators);
