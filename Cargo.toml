@@ -13,27 +13,27 @@ version = '1.0.126'
 [dependencies.sp-core]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-sign-ext'
+branch = 'gear-polkadot-v0.9.41-alloc-panic'
 
 [dependencies.sp-io]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-sign-ext'
+branch = 'gear-polkadot-v0.9.41-alloc-panic'
 
 [dependencies.sp-runtime]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-sign-ext'
+branch = 'gear-polkadot-v0.9.41-alloc-panic'
 
 [dependencies.sp-std]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-sign-ext'
+branch = 'gear-polkadot-v0.9.41-alloc-panic'
 
 [dependencies.sp-staking]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-sign-ext'
+branch = 'gear-polkadot-v0.9.41-alloc-panic'
 
 [dependencies.log]
 default-features = false
@@ -49,23 +49,23 @@ version = '3.0.0'
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
 optional = true
-branch = 'gear-polkadot-v0.9.41-sign-ext'
+branch = 'gear-polkadot-v0.9.41-alloc-panic'
 
 [dependencies.frame-support]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-sign-ext'
+branch = 'gear-polkadot-v0.9.41-alloc-panic'
 
 [dependencies.frame-system]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-sign-ext'
+branch = 'gear-polkadot-v0.9.41-alloc-panic'
 
 [dependencies.pallet-session]
 default-features = false
 features = ['historical']
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-sign-ext'
+branch = 'gear-polkadot-v0.9.41-alloc-panic'
 
 [dependencies.scale-info]
 default-features = false
