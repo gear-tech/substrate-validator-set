@@ -1,15 +1,15 @@
-
+use super::LOG_TARGET;
 use frame_support::{
 	ensure,
 	pallet_prelude::*,
-	traits::{EstimateNextSessionRotation, Get, ValidatorSet, ValidatorSetWithIdentification},
+	traits::{Currency, EstimateNextSessionRotation, Get, ValidatorSet, ValidatorSetWithIdentification},
 };
 use log;
 pub use pallet::*;
 use sp_runtime::traits::{Convert, Zero};
+use sp_runtime::traits::StaticLookup;
 use sp_staking::offence::{Offence, OffenceError, ReportOffence};
 use sp_std::{collections::btree_set::BTreeSet, prelude::*};
-use super::LOG_TARGET;
 
 #[frame_support::pallet]
 pub mod pallet {
@@ -19,7 +19,9 @@ pub mod pallet {
 	/// Configure the pallet by specifying the parameters and types on which it
 	/// depends.
 	#[pallet::config]
-	pub trait Config: frame_system::Config + pallet_session::Config + pallet_staking::Config {
+	pub trait Config:
+		frame_system::Config + pallet_session::Config + pallet_staking::Config
+	{
 		/// The Event type.
 		type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
 
@@ -72,10 +74,11 @@ pub mod pallet {
 		/// host runtime. Can also be set to sudo/root.
 		#[pallet::call_index(0)]
 		#[pallet::weight(0)]
-		pub fn add_validator(origin: OriginFor<T>, validator_id: T::AccountId) -> DispatchResult {
+		pub fn add_validator(
+			origin: OriginFor<T>,stash: T::AccountId, controller: T::AccountId) -> DispatchResult {
 			T::AddRemoveOrigin::ensure_origin(origin)?;
 
-			Self::do_add_validator(validator_id.clone())?;
+			Self::do_add_validator(&stash, &controller)?;
 
 			Ok(())
 		}
@@ -99,19 +102,37 @@ pub mod pallet {
 	}
 }
 
-
 impl<T: Config> Pallet<T> {
-	fn do_add_validator(validator_id: T::AccountId) -> DispatchResult {
-		pallet_staking::Pallet::<T>::do_add_validator(&validator_id, Default::default());
+	fn do_add_validator(stash: &T::AccountId, controller: &T::AccountId) -> DispatchResult {
+		log::debug!(target: LOG_TARGET, "inserting validaror: {:?} => {:?}", stash, 100000000000000u64);
+		assert!(
+			T::Currency::free_balance(stash) >= T::CurrencyBalance::from(100u64),
+			"Stash does not have enough balance to bond."
+		);
+		frame_support::assert_ok!(pallet_staking::Pallet::<T>::bond(
+			T::RuntimeOrigin::from(Some(stash.clone()).into()),
+			T::Lookup::unlookup(controller.clone()),
+			T::CurrencyBalance::from(100u64),
+			pallet_staking::RewardDestination::Staked,
+		));
+		frame_support::assert_ok!(pallet_staking::Pallet::<T>::validate(
+			T::RuntimeOrigin::from(Some(controller.clone()).into()),
+			Default::default(),
+		));
+		// assert!(
+		// 	pallet_staking::ValidatorCount::<T>::get()
+		// 		<= <T::ElectionProvider as ElectionProviderBase>::MaxWinners::get()
+		// );
 
-		Self::deposit_event(Event::ValidatorAdditionInitiated(validator_id.clone()));
-		log::debug!(target: LOG_TARGET, "Validator addition initiated.");
+		// pallet_staking::Pallet::<T>::do_add_validator(&validator_id, Default::default());
+
+		// Self::deposit_event(Event::ValidatorAdditionInitiated(validator_id.clone()));
+		// log::debug!(target: LOG_TARGET, "Validator addition initiated.");
 
 		Ok(())
 	}
 
 	fn do_remove_validator(validator_id: T::AccountId) -> DispatchResult {
-
 		pallet_staking::Pallet::<T>::do_remove_validator(&validator_id);
 
 		Self::deposit_event(Event::ValidatorRemovalInitiated(validator_id.clone()));
