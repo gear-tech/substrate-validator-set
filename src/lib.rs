@@ -29,6 +29,9 @@ use sp_std::{collections::btree_set::BTreeSet, prelude::*};
 
 pub const LOG_TARGET: &'static str = "runtime::validator-set";
 
+#[cfg(feature = "staking")]
+pub mod staking;
+
 #[frame_support::pallet]
 pub mod pallet {
 	use super::*;
@@ -36,24 +39,7 @@ pub mod pallet {
 
 	/// Configure the pallet by specifying the parameters and types on which it
 	/// depends.
-	///
 	#[pallet::config]
-	#[cfg(feature = "staking")]
-	pub trait Config:
-		frame_system::Config + pallet_session::Config + pallet_staking::Config
-	{
-		/// The Event type.
-		type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
-
-		/// Origin for adding or removing a validator.
-		type AddRemoveOrigin: EnsureOrigin<Self::RuntimeOrigin>;
-
-		/// Minimum number of validators to leave in the validator set during
-		/// auto removal.
-		type MinAuthorities: Get<u32>;
-	}
-
-	#[cfg(not(feature = "staking"))]
 	pub trait Config: frame_system::Config + pallet_session::Config {
 		/// The Event type.
 		type RuntimeEvent: From<Event<Self>> + IsType<<Self as frame_system::Config>::RuntimeEvent>;
@@ -200,9 +186,6 @@ impl<T: Config> Pallet<T> {
 		ensure!(!<Validators<T>>::get().contains(&validator_id), Error::<T>::Duplicate);
 		<Validators<T>>::mutate(|v| v.push(validator_id.clone()));
 
-		#[cfg(feature = "staking")]
-		pallet_staking::Pallet::<T>::do_add_validator(&validator_id, Default::default());
-
 		Self::deposit_event(Event::ValidatorAdditionInitiated(validator_id.clone()));
 		log::debug!(target: LOG_TARGET, "Validator addition initiated.");
 
@@ -222,9 +205,6 @@ impl<T: Config> Pallet<T> {
 		validators.retain(|v| *v != validator_id);
 
 		<Validators<T>>::put(validators);
-
-		#[cfg(feature = "staking")]
-		pallet_staking::Pallet::<T>::do_remove_validator(&validator_id);
 
 		Self::deposit_event(Event::ValidatorRemovalInitiated(validator_id.clone()));
 		log::debug!(target: LOG_TARGET, "Validator removal initiated.");
