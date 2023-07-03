@@ -13,27 +13,27 @@ version = '1.0.126'
 [dependencies.sp-core]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'vs/get-global-raw'
 
 [dependencies.sp-io]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'vs/get-global-raw'
 
 [dependencies.sp-runtime]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'vs/get-global-raw'
 
 [dependencies.sp-std]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'vs/get-global-raw'
 
 [dependencies.sp-staking]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'vs/get-global-raw'
 
 [dependencies.log]
 default-features = false
@@ -49,23 +49,23 @@ version = '3.0.0'
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
 optional = true
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'vs/get-global-raw'
 
 [dependencies.frame-support]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'vs/get-global-raw'
 
 [dependencies.frame-system]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'vs/get-global-raw'
 
 [dependencies.pallet-session]
 default-features = false
 features = ['historical']
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'vs/get-global-raw'
 
 [dependencies.scale-info]
 default-features = false
