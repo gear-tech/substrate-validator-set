@@ -13,27 +13,27 @@ version = '1.0.126'
 [dependencies.sp-core]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'gear-polkadot-v0.9.41-canary-revert-oom-changes'
 
 [dependencies.sp-io]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'gear-polkadot-v0.9.41-canary-revert-oom-changes'
 
 [dependencies.sp-runtime]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'gear-polkadot-v0.9.41-canary-revert-oom-changes'
 
 [dependencies.sp-std]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'gear-polkadot-v0.9.41-canary-revert-oom-changes'
 
 [dependencies.sp-staking]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'gear-polkadot-v0.9.41-canary-revert-oom-changes'
 
 [dependencies.log]
 default-features = false
@@ -49,23 +49,23 @@ version = '3.0.0'
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
 optional = true
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'gear-polkadot-v0.9.41-canary-revert-oom-changes'
 
 [dependencies.frame-support]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'gear-polkadot-v0.9.41-canary-revert-oom-changes'
 
 [dependencies.frame-system]
 default-features = false
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'gear-polkadot-v0.9.41-canary-revert-oom-changes'
 
 [dependencies.pallet-session]
 default-features = false
 features = ['historical']
 git = 'https://github.com/gear-tech/substrate.git'
-branch = 'gear-polkadot-v0.9.41-canary'
+branch = 'gear-polkadot-v0.9.41-canary-revert-oom-changes'
 
 [dependencies.scale-info]
 default-features = false
